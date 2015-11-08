@@ -4,6 +4,11 @@ project(web_crawler_server)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(SOURCE_FILES_SERVER
+		src/http_handler/read_file_handler.h
+		src/http_handler/read_file_handler.cpp
+
+		src/interface/http_handler.h
+		
     src/server/connection.cpp
     src/server/connection.h
     src/server/header.h

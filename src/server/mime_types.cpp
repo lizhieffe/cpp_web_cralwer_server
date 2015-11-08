@@ -11,7 +11,7 @@
 #include <string>
 
 namespace http {
-namespace server3 {
+namespace server {
 namespace mime_types {
 
 const std::map<std::string, std::string> extesionio_to_type_mapping = {
@@ -32,5 +32,5 @@ std::string extension_to_type(const std::string& extension) {
 }
 
 } // namespace mime_types
-} // namespace server3
+} // namespace server
 } // namespace http

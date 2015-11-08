@@ -20,7 +20,7 @@
 #include "request_parser.h"
 
 namespace http {
-namespace server3 {
+namespace server {
 
 /// Represents a single connection from a client.
 class connection
@@ -62,7 +62,7 @@ private:
   request request_;
 
   /// The parser for the incoming request.
-  request_parser request_parser_;
+  RequestParser request_parser_;
 
   /// The reply to be sent back to the client.
   reply reply_;
@@ -70,7 +70,7 @@ private:
 
 typedef boost::shared_ptr<connection> connection_ptr;
 
-} // namespace server3
+} // namespace server
 } // namespace http
 
 #endif /* SRC_SERVER_CONNECTION_H_ */

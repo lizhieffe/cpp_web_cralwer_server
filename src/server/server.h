@@ -17,7 +17,7 @@
 #include "request_handler.h"
 
 namespace http {
-namespace server3 {
+namespace server {
 
 /// The top-level class of the HTTP server.
 class server
@@ -64,7 +64,7 @@ private:
   std::string port_;
 };
 
-} // namespace server3
+} // namespace server
 } // namespace http
 
 #endif /* SRC_SERVER_SERVER_H_ */

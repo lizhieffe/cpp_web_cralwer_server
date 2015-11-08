@@ -13,7 +13,7 @@
 #include "request_handler.h"
 
 namespace http {
-namespace server3 {
+namespace server {
 
 connection::connection(boost::asio::io_service& io_service,
     request_handler& handler)
@@ -93,5 +93,5 @@ void connection::handle_write(const boost::system::error_code& e)
   // destructor closes the socket.
 }
 
-} // namespace server3
+} // namespace server
 } // namespace http

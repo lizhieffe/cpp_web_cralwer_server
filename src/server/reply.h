@@ -15,7 +15,7 @@
 #include "header.h"
 
 namespace http {
-namespace server3 {
+namespace server {
 
 /// A reply to be sent to a client.
 struct reply
@@ -56,7 +56,7 @@ struct reply
   static reply stock_reply(status_type status);
 };
 
-} // namespace server3
+} // namespace server
 } // namespace http
 
 #endif /* SRC_SERVER_REPLY_H_ */

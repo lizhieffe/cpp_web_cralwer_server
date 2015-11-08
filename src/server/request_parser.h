@@ -12,16 +12,15 @@
 #include <boost/tuple/tuple.hpp>
 
 namespace http {
-namespace server3 {
+namespace server {
 
 struct request;
 
 /// Parser for incoming requests.
-class request_parser
-{
+class RequestParser {
 public:
   /// Construct ready to parse the request method.
-  request_parser();
+  RequestParser();
 
   /// Reset to initial parser state.
   void reset();
@@ -32,10 +31,8 @@ public:
   /// input has been consumed.
   template <typename InputIterator>
   boost::tuple<boost::tribool, InputIterator> parse(request& req,
-      InputIterator begin, InputIterator end)
-  {
-    while (begin != end)
-    {
+      InputIterator begin, InputIterator end) {
+    while (begin != end) {
       boost::tribool result = consume(req, *begin++);
       if (result || !result)
         return boost::make_tuple(result, begin);
@@ -67,6 +64,10 @@ private:
     method,
     uri_start,
     uri,
+		// The start of a param name and value pair.
+		param_start,
+		param_name,
+		param_value,
     http_version_h,
     http_version_t_1,
     http_version_t_2,
@@ -87,7 +88,7 @@ private:
   } state_;
 };
 
-} // namespace server3
+} // namespace server
 } // namespace http
 
 #endif /* SRC_SERVER_REQUEST_PARSER_H_ */

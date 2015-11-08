@@ -11,7 +11,7 @@
 #include <string>
 
 namespace http {
-namespace server3 {
+namespace server {
 
 struct header
 {
@@ -19,7 +19,7 @@ struct header
   std::string value;
 };
 
-} // namespace server3
+} // namespace server
 } // namespace http
 
 #endif /* SRC_SERVER_HEADER_H_ */

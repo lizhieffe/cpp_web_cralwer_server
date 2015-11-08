@@ -7,23 +7,25 @@
 
 #include "request_parser.h"
 
+#include <iostream>
 #include "request.h"
 
 namespace http {
-namespace server3 {
+namespace server {
 
-request_parser::request_parser()
+RequestParser::RequestParser()
   : state_(method_start)
 {
 }
 
-void request_parser::reset()
+void RequestParser::reset()
 {
   state_ = method_start;
 }
 
-boost::tribool request_parser::consume(request& req, char input)
+boost::tribool RequestParser::consume(request& req, char input)
 {
+	std::cout << input << ',';
   switch (state_)
   {
   case method_start:
@@ -68,6 +70,9 @@ boost::tribool request_parser::consume(request& req, char input)
     {
       state_ = http_version_h;
       return boost::indeterminate;
+    } else if (input == '?') {
+    	state_ = param_start;
+    	return boost::indeterminate;
     }
     else if (is_ctl(input))
     {
@@ -78,6 +83,41 @@ boost::tribool request_parser::consume(request& req, char input)
       req.uri.push_back(input);
       return boost::indeterminate;
     }
+  case param_start:
+  	std::cout << "start" << std::endl;
+  	if (input == ' ') {
+  		state_ = http_version_h;
+			return boost::indeterminate;
+  	} else {
+  		state_ = param_name;
+  		req.params.push_back(Param());
+  		req.params.back().name.push_back(input);
+  		return boost::indeterminate;
+  	}
+  case param_name:
+  	std::cout << "name" << std::endl;
+  	if (input == ' ') {
+      state_ = http_version_h;
+      return boost::indeterminate;
+    } else if (input == '=') {
+    	state_ = param_value;
+      return boost::indeterminate;
+    } else {
+  		req.params.back().name.push_back(input);
+  		return boost::indeterminate;
+    }
+  case param_value:
+  	std::cout << "value" << std::endl;
+  	if (input == ' ') {
+  		state_ = http_version_h;
+  		return boost::indeterminate;
+  	} else if (input == '&') {
+  		state_ = param_start;
+  		return boost::indeterminate;
+  	} else {
+  		req.params.back().value.push_back(input);
+  		return boost::indeterminate;
+  	}
   case http_version_h:
     if (input == 'H')
     {
@@ -291,17 +331,17 @@ boost::tribool request_parser::consume(request& req, char input)
   }
 }
 
-bool request_parser::is_char(int c)
+bool RequestParser::is_char(int c)
 {
   return c >= 0 && c <= 127;
 }
 
-bool request_parser::is_ctl(int c)
+bool RequestParser::is_ctl(int c)
 {
   return (c >= 0 && c <= 31) || (c == 127);
 }
 
-bool request_parser::is_tspecial(int c)
+bool RequestParser::is_tspecial(int c)
 {
   switch (c)
   {
@@ -315,10 +355,10 @@ bool request_parser::is_tspecial(int c)
   }
 }
 
-bool request_parser::is_digit(int c)
+bool RequestParser::is_digit(int c)
 {
   return c >= '0' && c <= '9';
 }
 
-} // namespace server3
+} // namespace server
 } // namespace http

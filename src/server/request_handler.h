@@ -12,7 +12,7 @@
 #include <boost/noncopyable.hpp>
 
 namespace http {
-namespace server3 {
+namespace server {
 
 struct reply;
 struct request;
@@ -37,7 +37,7 @@ private:
   static bool url_decode(const std::string& in, std::string& out);
 };
 
-} // namespace server3
+} // namespace server
 } // namespace http
 
 #endif /* SRC_SERVER_REQUEST_HANDLER_H_ */

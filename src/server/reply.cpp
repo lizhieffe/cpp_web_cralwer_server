@@ -11,7 +11,7 @@
 #include <boost/lexical_cast.hpp>
 
 namespace http {
-namespace server3 {
+namespace server {
 
 namespace status_strings {
 
@@ -249,5 +249,5 @@ reply reply::stock_reply(reply::status_type status)
   return rep;
 }
 
-} // namespace server3
+} // namespace server
 } // namespace http

@@ -12,9 +12,10 @@
 #include <vector>
 
 #include "header.h"
+#include "param.h"
 
 namespace http {
-namespace server3 {
+namespace server {
 
 /// A request received from a client.
 struct request
@@ -23,10 +24,11 @@ struct request
   std::string uri;
   int http_version_major;
   int http_version_minor;
+  std::vector<Param> params;
   std::vector<header> headers;
 };
 
-} // namespace server3
+} // namespace server
 } // namespace http
 
 #endif /* SRC_SERVER_REQUEST_H_ */
