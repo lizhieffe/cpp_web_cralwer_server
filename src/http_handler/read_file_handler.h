@@ -8,7 +8,7 @@
 #ifndef SRC_HTTP_HANDLER_READ_FILE_HANDLER_H_
 #define SRC_HTTP_HANDLER_READ_FILE_HANDLER_H_
 
-#include "../interface/http_handler.h"
+#include "http_handler.h"
 
 namespace http {
 namespace handler {

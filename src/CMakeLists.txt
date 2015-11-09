@@ -1,10 +1,14 @@
 cmake_minimum_required(VERSION 3.3)
-project(web_crawler)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-add_subdirectory(src)
+add_subdirectory(http_handler)
+add_subdirectory(server)
+
+#add_executable(web_crawler_server)
+#target_link_libraries(web_crawler_server server)
+
 
 #set(SOURCE_FILES_SERVER
 #		src/http_handler/read_file_handler.h

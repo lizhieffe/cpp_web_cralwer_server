@@ -15,7 +15,7 @@
 #include "mime_types.h"
 #include "reply.h"
 #include "request.h"
-#include "../interface/http_handler.h"
+#include "../http_handler/http_handler.h"
 #include "../http_handler/read_file_handler.h"
 
 namespace http {

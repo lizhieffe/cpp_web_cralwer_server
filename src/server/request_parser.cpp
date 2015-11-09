@@ -344,6 +344,8 @@ boost::tribool RequestParser::consume(request& req, char input)
   			--body_chars_left_;
   			return boost::indeterminate;
   		}
+  	} else {
+  		return false;
   	}
   default:
     return false;
