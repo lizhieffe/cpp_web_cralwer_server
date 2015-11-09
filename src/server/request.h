@@ -26,6 +26,7 @@ struct request
   int http_version_minor;
   std::vector<Param> params;
   std::vector<header> headers;
+  std::string body;
 };
 
 } // namespace server

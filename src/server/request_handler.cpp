@@ -45,6 +45,7 @@ void request_handler::handle_request(const request& req, reply& rep)
 		std::cout << "name: " << header.name << ", value: " << header.value
 							<< std::endl;
 	}
+	std::cout << "Body:\n" << req.body << std::endl;
 
 	HttpHandlerHolder read_file_handler = NewReadFileHandler(doc_root_);
 	read_file_handler->HandleRequest(req, &rep);

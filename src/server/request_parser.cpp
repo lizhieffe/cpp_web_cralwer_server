@@ -13,6 +13,8 @@
 namespace http {
 namespace server {
 
+const char kHeaderNameContentLength[] = "Content-Length";
+
 RequestParser::RequestParser()
   : state_(method_start)
 {
@@ -25,7 +27,6 @@ void RequestParser::reset()
 
 boost::tribool RequestParser::consume(request& req, char input)
 {
-	std::cout << input << ',';
   switch (state_)
   {
   case method_start:
@@ -84,7 +85,6 @@ boost::tribool RequestParser::consume(request& req, char input)
       return boost::indeterminate;
     }
   case param_start:
-  	std::cout << "start" << std::endl;
   	if (input == ' ') {
   		state_ = http_version_h;
 			return boost::indeterminate;
@@ -95,7 +95,6 @@ boost::tribool RequestParser::consume(request& req, char input)
   		return boost::indeterminate;
   	}
   case param_name:
-  	std::cout << "name" << std::endl;
   	if (input == ' ') {
       state_ = http_version_h;
       return boost::indeterminate;
@@ -107,7 +106,6 @@ boost::tribool RequestParser::consume(request& req, char input)
   		return boost::indeterminate;
     }
   case param_value:
-  	std::cout << "value" << std::endl;
   	if (input == ' ') {
   		state_ = http_version_h;
   		return boost::indeterminate;
@@ -325,7 +323,28 @@ boost::tribool RequestParser::consume(request& req, char input)
       return false;
     }
   case expecting_newline_3:
-    return (input == '\n');
+  	if (input == '\n') {
+  		body_chars_left_ = FindBodyLength(req);
+  		if (body_chars_left_ == 0) {
+  			return true;
+  		} else {
+				body_chars_left_ = FindBodyLength(req);
+				state_ = body_start;
+				return boost::indeterminate;
+  		}
+  	} else {
+  		return false;
+  	}
+  case body_start:
+  	if (body_chars_left_ > 0) {
+  		req.body.push_back(input);
+  		if (body_chars_left_ == 1) {
+  			return true;
+  		} else {
+  			--body_chars_left_;
+  			return boost::indeterminate;
+  		}
+  	}
   default:
     return false;
   }
@@ -355,9 +374,17 @@ bool RequestParser::is_tspecial(int c)
   }
 }
 
-bool RequestParser::is_digit(int c)
-{
+bool RequestParser::is_digit(int c) {
   return c >= '0' && c <= '9';
+}
+
+int RequestParser::FindBodyLength(const request& req) {
+	for (const auto& header : req.headers) {
+		if (header.name == kHeaderNameContentLength) {
+			return atoi(header.value.c_str());
+		}
+	}
+	return 0;
 }
 
 } // namespace server

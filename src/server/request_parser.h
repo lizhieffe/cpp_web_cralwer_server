@@ -57,6 +57,9 @@ private:
   /// Check if a byte is a digit.
   static bool is_digit(int c);
 
+  // Get the body length from the header of name Content-Length.
+  static int FindBodyLength(const request& req);
+
   /// The current state of the parser.
   enum state
   {
@@ -84,8 +87,13 @@ private:
     space_before_header_value,
     header_value,
     expecting_newline_2,
-    expecting_newline_3
+    expecting_newline_3,
+		possible_body_start,
+		body_start
   } state_;
+
+  // Number of chars in the body to be read.
+  size_t body_chars_left_ = 0;
 };
 
 } // namespace server
