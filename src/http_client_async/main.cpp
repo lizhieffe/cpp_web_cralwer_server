@@ -18,7 +18,9 @@ class client
 {
 public:
   client(boost::asio::io_service& io_service,
-      const std::string& server, const std::string& path)
+      	 const std::string& server,
+				 const std::string& port,
+				 const std::string& path)
     : resolver_(io_service),
       socket_(io_service)
   {
@@ -33,7 +35,7 @@ public:
 
     // Start an asynchronous resolve to translate the server and service names
     // into a list of endpoints.
-    tcp::resolver::query query(server, "http");
+    tcp::resolver::query query(server, port);
     resolver_.async_resolve(query,
         boost::bind(&client::handle_resolve, this,
           boost::asio::placeholders::error,
@@ -181,16 +183,16 @@ int main(int argc, char* argv[])
 {
   try
   {
-    if (argc != 3)
-    {
-      std::cout << "Usage: async_client <server> <path>\n";
-      std::cout << "Example:\n";
-      std::cout << "  async_client www.boost.org /LICENSE_1_0.txt\n";
-      return 1;
-    }
+    if (argc != 4) {
+			std::cout << "Usage: http_client_async <server> <path>\n";
+			std::cout << "Example:\n";
+			std::cout << "  http_client_async www.boost.org /LICENSE_1_0.txt"
+								<< std::endl;
+			return 1;
+		}
 
     boost::asio::io_service io_service;
-    client c(io_service, argv[1], argv[2]);
+    client c(io_service, argv[1], argv[2], argv[3]);
     io_service.run();
   }
   catch (std::exception& e)

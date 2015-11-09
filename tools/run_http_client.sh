@@ -18,16 +18,15 @@ cd "$script_path"
 cd ..
 # the -DBoost_DEBUG is for cmake to find the boost library path on OSX
 cmake -DBoost_DEBUG=ON
-make http_client_sync
 echo
 echo
 
 if [[ "$1" == "sync" ]]; then
   make http_client_sync
-  CMD="./http_client_sync $2 $3 $4"
+  CMD="./src/http_client_sync/http_client_sync $2 $3 $4"
 else
   make http_client_async
-  CMD="./http_client_async $2 $3 $4"
+  CMD="./src/http_client_async/http_client_async $2 $3 $4"
 fi
 
 echo -e "\033[33mRunning http request using command:\033[0m"
